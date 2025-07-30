@@ -1,0 +1,19 @@
+REDEME.txt
+
+cd Detect_ws
+export ROS_MASTER_URI=http://192.168.11.11:11311  
+export ROS_IP=192.168.11.22
+export ROS_HOSTNAME=192.168.11.22
+source /opt/ros/noetic/setup.bash
+source ~/Detect_ws/devel/setup.bash
+
+rosrun detect_pkg Bottle_info_Save_to_CSV.py 
+
+rosrun detect_pkg DetectTarget_CRF.py \
+ --n_fields=9 \
+ --model="/home/dars/Detect_ws/src/detect_pkg/Train_joblib/bottle_crf_model.joblib"
+
+
+rosrun detect_pkg DetectTarget.py \
+  --win=0.5,0.25,0.25 \
+  --wout=0.25,0.5,0.25

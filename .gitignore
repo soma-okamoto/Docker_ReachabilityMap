@@ -25,3 +25,5 @@ install/
 
 # catkin_make が作る Linux シンボリックリンク（Windowsでは扱えない）
 RM/src/CMakeLists.txt
+# catkin_make が作る Linux シンボリックリンク
+Detect_ws/src/CMakeLists.txt
