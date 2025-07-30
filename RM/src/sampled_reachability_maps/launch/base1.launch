@@ -1,0 +1,12 @@
+<launch>
+  <!-- 引数を定義 -->
+  <arg name="inv_map_pkl1" default="/home/dasnote11/catkin_ws/src/sampled_reachability_maps/data/reach_map_gripper_finger_link_torso_True_0.08_2024-12-20-23-07-48.pklinv_reach_map_gripper_finger_link_torso_True_0.08_2024-12-20-23-07-48.pkl" />
+ 
+
+  <!-- ノードを実行 -->
+  <node name="run_first_time"
+        pkg="sampled_reachability_maps"
+        type="33base3.py"
+        output="screen"
+        args="--inv_map_pkl $(arg inv_map_pkl1)" />
+</launch>

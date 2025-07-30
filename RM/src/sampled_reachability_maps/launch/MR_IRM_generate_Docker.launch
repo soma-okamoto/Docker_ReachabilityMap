@@ -1,0 +1,11 @@
+<launch>
+  <!-- ROS のパッケージ検索パスを使って data フォルダを指定 -->
+  <arg name="inv_map_pkl1"
+       default="$(find sampled_reachability_maps)/data/reach_map_gripper_finger_link_torso_True_0.08_2024-12-20-23-07-48.pklinv_reach_map_gripper_finger_link_torso_True_0.08_2024-12-20-23-07-48.pkl" />
+
+  <node name="run_first_time"
+        pkg="sampled_reachability_maps"
+        type="MR_IRM_generate.py"
+        output="screen"
+        args="--inv_map_pkl $(arg inv_map_pkl1)" />
+</launch>

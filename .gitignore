@@ -1,0 +1,27 @@
+# キャッシュ／ログ系
+.cache/
+.ros/
+*.log
+.bash_history
+
+# ワークスペースやビルド成果物
+RM/build/
+RM/devel/
+RM/logs/
+
+
+# Dockerデーモンやイメージファイルなどの大容量ゴミ
+docker-compose.override.yml
+docker-compose.*.yml
+
+# ビルド出力（もしあれば）
+build/
+devel/
+install/
+
+# IDE／エディタ設定
+.vscode/
+.idea/
+
+# catkin_make が作る Linux シンボリックリンク（Windowsでは扱えない）
+RM/src/CMakeLists.txt
