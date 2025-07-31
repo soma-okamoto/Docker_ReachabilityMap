@@ -41,7 +41,7 @@ rosrun detect_pkg DetectTarget.py \
   --win=0.5,0.25,0.25 \
   --wout=0.21,0.58,0.21
 
-
+rosrun detect_pkg Bottle_info_Save_to_CSV.py
 
 
 Unity-RosConnector
