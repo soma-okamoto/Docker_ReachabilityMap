@@ -14,11 +14,9 @@ docker exec -it ros_dev bash
 
 source /opt/ros/noetic/setup.bash
 
-----------------------------
+----------------------------rosbridge_server-----------------------
 source /opt/ros/noetic/setup.bash
-
 roslaunch rosbridge_server rosbridge_websocket.launch
-
 
 ----------------ReachabilityMap---------------
 cd RM
@@ -32,6 +30,7 @@ roslaunch sampled_reachability_maps MR_IRM_generate_Docker.launch
 rosrun sampled_reachability_maps MR_IRM_firstRoute.py
 rosrun sampled_reachability_maps MR_IRM_firstRoute_fixed.py
 
+--------------------DetectTargetObject-----------------
 cd Detect_ws
 source devel/setup.bash
 
@@ -42,7 +41,10 @@ rosrun detect_pkg DetectTarget.py \
   --win=0.5,0.25,0.25 \
   --wout=0.21,0.58,0.21
 
-RosConnector
+
+
+
+Unity-RosConnector
 -------------------------------------
 ws://192.168.11.11:9090
 ws://localhost:9090
