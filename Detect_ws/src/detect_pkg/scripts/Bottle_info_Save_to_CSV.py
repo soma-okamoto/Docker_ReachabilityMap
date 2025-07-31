@@ -10,7 +10,8 @@ import re
 class BottleLogger:
     def __init__(self, csv_path):
         self.seq_id = 0
-        self.prev_touch = 0
+         # ボトルIDごとの直前 touch_flag を保持
+        self.prev_touches = {}
 
         self.csv_file = open(csv_path, 'w', newline='')
         self.writer = csv.writer(self.csv_file)
@@ -35,6 +36,15 @@ class BottleLogger:
             # s_hand, s_head, s_accel, s_gaze = rec[6:]
             s_hand, s_head, s_accel= rec[6:]
 
+
+            # このボトルの直前フラグ
+            prev = self.prev_touches.get(b_id, 0)
+            # ボトルb_idが 1→0 に遷移したときだけシーケンスIDをインクリメント
+            if prev == 1 and touch_flag == 0:
+                self.seq_id += 1
+             # フラグ更新
+            self.prev_touches[b_id] = touch_flag
+
             # ここで現在の seq_id を書き込む
             self.writer.writerow([
                 ts, self.seq_id, b_id, x, y, z,
@@ -43,12 +53,7 @@ class BottleLogger:
             ])
             self.csv_file.flush()
 
-            # touch_flag の 1→0 の遷移時にシーケンスIDをインクリメント
-            # ここでは前フレームの touch_flag を保持し、
-            # 現在のフラグが 0 かつ前のフラグが 1 の場合にシーケンスを切り替える
-            if self.prev_touch == 1 and touch_flag == 0:
-                self.seq_id += 1
-            self.prev_touch = touch_flag
+
 
 def get_next_csv_path(pattern):
     """
