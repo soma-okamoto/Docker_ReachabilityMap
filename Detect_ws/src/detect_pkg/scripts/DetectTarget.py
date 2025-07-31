@@ -142,4 +142,5 @@ if __name__ == '__main__':
         args.alpha, args.hysteresis_m,
         n_fields=args.n_fields
     )
+    rospy.loginfo("Waiting for User Signal ...")
     rospy.spin()

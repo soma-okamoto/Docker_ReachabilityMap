@@ -23,7 +23,8 @@ class IRMFirstRouteFromPC2:
         self.pub = rospy.Publisher(self.route_topic, Path, queue_size=1)
         self.sub = rospy.Subscriber(self.pc2_topic, PointCloud2, self.pc2_callback, queue_size=1)
 
-        rospy.loginfo(f"[IRMFirstRoute] Subscribing PC2: {self.pc2_topic}, Publishing Path: {self.route_topic}")
+        # rospy.loginfo(f"[IRMFirstRoute] Subscribing PC2: {self.pc2_topic}, Publishing Path: {self.route_topic}")
+        rospy.loginfo("Waiting for SelectBottle ...")
         rospy.spin()
 
     def pc2_callback(self, msg: PointCloud2):

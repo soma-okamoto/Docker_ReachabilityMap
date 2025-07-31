@@ -23,16 +23,18 @@ roslaunch rosbridge_server rosbridge_websocket.launch
 ----------------ReachabilityMap---------------
 cd RM
 source devel/setup.bash
+
 export ROS_MASTER_URI=http://192.168.11.11:11311
 export ROS_IP=host.docker.internal
 
 roslaunch sampled_reachability_maps MR_IRM_generate_Docker.launch
 
 rosrun sampled_reachability_maps MR_IRM_firstRoute.py
-
+rosrun sampled_reachability_maps MR_IRM_firstRoute_fixed.py
 
 cd Detect_ws
 source devel/setup.bash
+
 export ROS_MASTER_URI=http://192.168.11.11:11311
 export ROS_IP=host.docker.internal
 
