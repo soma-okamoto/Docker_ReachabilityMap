@@ -12,7 +12,13 @@ docker run -d --name ros_dev -p 9090:9090 -v C:\Users\soma0\Docker_ReachabilityM
 cd Docker_ReachabilityMap
 docker exec -it ros_dev bash
 
+
+# 1) 自分自身を指す IP/ホスト名をエクスポート
+export ROS_MASTER_URI=http://ros_dev:11311
+export ROS_HOSTNAME=ros_dev 
 source /opt/ros/noetic/setup.bash
+
+  
 
 ----------------------------rosbridge_server-----------------------
 source /opt/ros/noetic/setup.bash
@@ -49,3 +55,8 @@ Unity-RosConnector
 ws://192.168.11.11:9090
 ws://localhost:9090
 -------------------------------------
+
+PS C:\Users\soma0> docker network create rosnet
+
+PS C:\Users\soma0> docker network connect rosnet ros_dev
+PS C:\Users\soma0> docker network connect rosnet youbot_ros

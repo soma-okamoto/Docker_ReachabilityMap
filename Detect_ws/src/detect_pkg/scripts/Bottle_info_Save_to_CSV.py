@@ -56,11 +56,7 @@ class BottleLogger:
 
 
 def get_next_csv_path(pattern):
-    """
-    pattern: --csv で渡されたベースファイル名（たとえば '.../bottle_logs.csv'）
-    既存の同ディレクトリ内のファイルを glob で探し、
-    'bottle_logs1.csv','bottle_logs2.csv',… のうち最大の数字を取得して +1 する。
-    """
+
     base, ext = os.path.splitext(pattern)
     if ext == '':
         ext = '.csv'
