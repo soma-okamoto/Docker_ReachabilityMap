@@ -2,9 +2,10 @@
 import rospy
 import json
 import argparse
-from std_msgs.msg import Int32, Float32MultiArray
+from std_msgs.msg import Int32, Float32,Float32MultiArray
 import numpy as np
 from joblib import load
+from std_msgs.msg import Bool
 
 class BottleIdentifier:
     def __init__(self, win, wout, tin, tout, alpha, hysteresis_m,
@@ -26,8 +27,10 @@ class BottleIdentifier:
         self.counter   = 0
 
         self.pub = rospy.Publisher('/identified_bottle', Int32, queue_size=10)
-        # self.pub = rospy.Publisher('/identified_bottle', Float32MultiArray, queue_size=10)
+        self.pub_score = rospy.Publisher('/identified_bottle_score', Float32, queue_size=10)
         rospy.Subscriber('/bottle_features', Float32MultiArray, self.callback)
+        self.pub_pos  = rospy.Publisher('/identified_bottle_pose', Float32MultiArray, queue_size=10)
+        self.pub_touch = rospy.Publisher('/identified_bottle_touch', Bool,   queue_size=10)
 
 
     def callback(self, msg: Float32MultiArray):
@@ -83,6 +86,8 @@ class BottleIdentifier:
             pos = b_positions[best_id]
             rospy.loginfo(f"Touch bottle: ID={best_id} , {pos}, score={best_score:.3f}")
             self.pub.publish(best_id)
+            self.pub_pos.publish(Float32MultiArray(data=pos))
+            # self.pub_touch.publish(touch)
             self.prev_best, self.counter = best_id, self.M
             return
 
@@ -108,7 +113,12 @@ class BottleIdentifier:
             reach=reach_flags[best_id]
             rospy.loginfo(f"Detect bottle: ID={best_id} , Reach={reach},{pos}, score={best_score:.3f}")
             self.pub.publish(best_id)
+            self.pub_score.publish(best_score)
+            
             # self.pub.publish(best_id,reach)
+            # 座標 [x, y, z]
+            self.pub_pos.publish(Float32MultiArray(data=pos))
+            # self.pub_touch.publish(touch)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(

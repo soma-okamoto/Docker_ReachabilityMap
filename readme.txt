@@ -4,18 +4,18 @@ docker build -t ros_dev .
 
 
 ---------------------------------Dockerコンテナ立ち上げ---------------------------------
-cd Docker_ReachabilityMap
-docker rm -f ros_dev
-docker run -d --name ros_dev -p 9090:9090 -v C:\Users\soma0\Docker_ReachabilityMap:/root ros_dev tail -f /dev/null
+cd Docker_ReachabilityMap\Docker_ReachabilityMap
+docker rm -f irm_dev
+docker run -d --name irm_dev -p 9090:9090 -v C:\Users\notic\Docker_ReachabilityMap\Docker_ReachabilityMap:/root irm_dev tail -f /dev/null
 
 ---------------------------------コンテナエントリー-------------------------------------
 cd Docker_ReachabilityMap
-docker exec -it ros_dev bash
+docker exec -it irm_dev bash
 
 
 # 1) 自分自身を指す IP/ホスト名をエクスポート
-export ROS_MASTER_URI=http://ros_dev:11311
-export ROS_HOSTNAME=ros_dev 
+export ROS_MASTER_URI=http://irm_dev:11311
+export ROS_HOSTNAME=irm_dev 
 source /opt/ros/noetic/setup.bash
 
   
@@ -58,5 +58,5 @@ ws://localhost:9090
 
 PS C:\Users\soma0> docker network create rosnet
 
-PS C:\Users\soma0> docker network connect rosnet ros_dev
+PS C:\Users\soma0> docker network connect rosnet irm_dev
 PS C:\Users\soma0> docker network connect rosnet youbot_ros

@@ -1,0 +1,4 @@
+detect_pkg
+/root/Detect_ws/devel/.private/detect_pkg/lib/pkgconfig/detect_pkg.pc /root/Detect_ws/devel/lib/pkgconfig/detect_pkg.pc
+/root/Detect_ws/devel/.private/detect_pkg/share/detect_pkg/cmake/detect_pkgConfig-version.cmake /root/Detect_ws/devel/share/detect_pkg/cmake/detect_pkgConfig-version.cmake
+/root/Detect_ws/devel/.private/detect_pkg/share/detect_pkg/cmake/detect_pkgConfig.cmake /root/Detect_ws/devel/share/detect_pkg/cmake/detect_pkgConfig.cmake
