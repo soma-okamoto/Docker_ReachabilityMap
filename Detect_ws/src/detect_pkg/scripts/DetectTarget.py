@@ -30,7 +30,8 @@ class BottleIdentifier:
         self.pub_score = rospy.Publisher('/identified_bottle_score', Float32, queue_size=10)
         rospy.Subscriber('/bottle_features', Float32MultiArray, self.callback)
         self.pub_pos  = rospy.Publisher('/identified_bottle_pose', Float32MultiArray, queue_size=10)
-        self.pub_touch = rospy.Publisher('/identified_bottle_touch', Bool,   queue_size=10)
+        # self.pub_touch = rospy.Publisher('/identified_bottle_touch', Bool,   queue_size=10)
+        self.pub_touch = rospy.Publisher('/identified_bottle_touch', Int32,   queue_size=10)
 
 
     def callback(self, msg: Float32MultiArray):
@@ -87,7 +88,12 @@ class BottleIdentifier:
             rospy.loginfo(f"Touch bottle: ID={best_id} , {pos}, score={best_score:.3f}")
             self.pub.publish(best_id)
             self.pub_pos.publish(Float32MultiArray(data=pos))
-            # self.pub_touch.publish(touch)
+            self.pub_score.publish(best_score)
+            if touch_flags[best_id]:
+                touch=1
+            else:
+                touch=0
+            self.pub_touch.publish(touch)
             self.prev_best, self.counter = best_id, self.M
             return
 
@@ -116,9 +122,13 @@ class BottleIdentifier:
             self.pub_score.publish(best_score)
             
             # self.pub.publish(best_id,reach)
-            # 座標 [x, y, z]
+
             self.pub_pos.publish(Float32MultiArray(data=pos))
-            # self.pub_touch.publish(touch)
+            if touch_flags[best_id]:
+                touch=1
+            else:
+                touch=0
+            self.pub_touch.publish(touch)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(

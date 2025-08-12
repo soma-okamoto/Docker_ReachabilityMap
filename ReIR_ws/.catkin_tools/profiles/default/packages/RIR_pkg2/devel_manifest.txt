@@ -1,0 +1,4 @@
+RIR_pkg2
+/root/ReIR_ws/devel/.private/RIR_pkg2/lib/pkgconfig/RIR_pkg2.pc /root/ReIR_ws/devel/lib/pkgconfig/RIR_pkg2.pc
+/root/ReIR_ws/devel/.private/RIR_pkg2/share/RIR_pkg2/cmake/RIR_pkg2Config-version.cmake /root/ReIR_ws/devel/share/RIR_pkg2/cmake/RIR_pkg2Config-version.cmake
+/root/ReIR_ws/devel/.private/RIR_pkg2/share/RIR_pkg2/cmake/RIR_pkg2Config.cmake /root/ReIR_ws/devel/share/RIR_pkg2/cmake/RIR_pkg2Config.cmake
