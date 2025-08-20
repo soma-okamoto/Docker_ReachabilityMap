@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y \
       libqt5gui5 \
       libqt5widgets5 \
       libhdf5-dev \
+      dos2unix \
     && rm -rf /var/lib/apt/lists/*
 
 
