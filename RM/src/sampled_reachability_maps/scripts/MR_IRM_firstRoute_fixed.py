@@ -4,7 +4,7 @@ import numpy as np
 from sensor_msgs.msg    import PointCloud2
 import sensor_msgs.point_cloud2 as pc2
 from nav_msgs.msg       import Path
-from geometry_msgs.msg  import PoseStamped, Point, Quaternion
+from geometry_msgs.msg  import PoseStamped, Point, Quaternion, Vector3Stamped
 from std_msgs.msg       import Header
 
 class IRMFirstRouteFromPC2:
@@ -19,6 +19,10 @@ class IRMFirstRouteFromPC2:
         self.spacing      = rospy.get_param('~spacing',      0.4)   # ウェイポイント間隔 [m]
         self.origin       = np.array([0.0, 0.0, 0.0])         # 原点
 
+        self.offset_topic = rospy.get_param('~offset_topic','/youbot/offset')
+        self.origin_vec = None
+        rospy.Subscriber(self.offset_topic, Vector3Stamped, self.offset_cb, queue_size=10)
+
         # Publisher & Subscriber6
         self.pub = rospy.Publisher(self.route_topic, Path, queue_size=1)
         self.sub = rospy.Subscriber(self.pc2_topic, PointCloud2, self.pc2_callback, queue_size=1)
@@ -26,6 +30,10 @@ class IRMFirstRouteFromPC2:
         # rospy.loginfo(f"[IRMFirstRoute] Subscribing PC2: {self.pc2_topic}, Publishing Path: {self.route_topic}")
         rospy.loginfo("Waiting for SelectBottle ...")
         rospy.spin()
+
+    def offset_cb(self, msg: Vector3Stamped):
+        # ROS同士の計算なので座標系変換は不要
+        self.origin_vec = np.array([msg.vector.x, msg.vector.y, msg.vector.z], dtype=np.float64)
 
     def pc2_callback(self, msg: PointCloud2):
         # PointCloud2 から (x,y,z,score) を取り出す
@@ -40,12 +48,17 @@ class IRMFirstRouteFromPC2:
         coords = arr[:,0:3]
         scores = arr[:,3]
 
+        # if self.origin_vec is None:
+        #     rospy.logwarn_throttle(2.0, "[IRMFirstRoute] Waiting offset (%s)..." % self.offset_topic)
+        #     return
+
         # 2) スコアを 0～1 に正規化
         max_score = scores.max() if scores.max()>0 else 1.0
         scores_norm = scores / max_score
 
         # 距離正規化
         dists = np.linalg.norm(coords - self.origin, axis=1)
+        # dists = np.linalg.norm(coords - self.origin_vec, axis=1)
         maxd  = dists.max() if dists.max()>0 else 1.0
         ndist = dists / maxd
         proximity = 1.0 - ndist
@@ -60,6 +73,7 @@ class IRMFirstRouteFromPC2:
 
         # 0.5m 間隔で直線上にウェイポイント生成
         vector = goal - self.origin
+        # vector = goal - self.origin_vec
         dist_total = np.linalg.norm(vector)
         if dist_total < 1e-6:
             rospy.logwarn("[IRMFirstRoute] Goal is too close to origin.")
@@ -70,6 +84,7 @@ class IRMFirstRouteFromPC2:
             n_steps = int(dist_total / self.spacing)
             waypoints = [
                 self.origin + direction * self.spacing * i
+                # self.origin_vec + direction * self.spacing * i
                 for i in range(1, n_steps+1)
             ]
             # ゴール位置を必ず末尾に
