@@ -105,6 +105,7 @@ class IRMFirstRouteFromPC2:
         rospy.loginfo(f"[IRMFirstRoute] Published Path with {len(path.poses)} poses")
         # 一度だけ発行したら解除
         self.sub.unregister()
+        rospy.signal_shutdown("First route published")
 
 
 if __name__=="__main__":

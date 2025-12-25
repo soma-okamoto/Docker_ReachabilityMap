@@ -184,6 +184,8 @@ class BaseMapGenerator:
         rospy.loginfo(f"[IRM_PointCloud2 published: {sphere_array.shape[0]} points]  time={time.perf_counter()-t0:.2f}s")
 
 
+        rospy.signal_shutdown("IRM_Published")
+
 
 def main():
     try:
