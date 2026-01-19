@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>irm_coordinator</name>
+  <version>0.0.0</version>
+  <description>IRM coordinator package (services + coordinator node)</description>
+
+  <maintainer email="dars@todo.todo">dars</maintainer>
+  <license>TODO</license>
+
+  <!-- build -->
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <!-- message/service generation -->
+  <build_depend>message_generation</build_depend>
+  <exec_depend>message_runtime</exec_depend>
+
+  <!-- runtime deps -->
+  <depend>rospy</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>sensor_msgs</depend>
+
+  <export/>
+</package>

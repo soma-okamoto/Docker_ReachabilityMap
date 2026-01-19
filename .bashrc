@@ -1,0 +1,10 @@
+export ROS_MASTER_URI=http://192.168.11.12:11311/
+export ROS_IP=$(hostname -I | awk '{print $1}')
+export ROS_MASTER_URI=http://192.168.11.12:11311/
+export ROS_IP=$(hostname -I | awk '{print $1}')
+export ROS_MASTER_URI=http://192.168.11.12:11311/
+export ROS_IP=$(hostname -I | awk '{print $1}')
+export ROS_MASTER_URI=http://192.168.11.12:11311/
+export ROS_IP=$(hostname -I | awk '{print $1}')
+export ROS_MASTER_URI=http://192.168.11.12:11311/
+export ROS_IP=$(hostname -I | awk '{print $1}')

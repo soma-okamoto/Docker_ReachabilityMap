@@ -1,0 +1,13 @@
+# Request
+geometry_msgs/Point target_pos
+string inv_map_pkl      # "" なら ~inv_map_pkl param を使う
+string output_dir       # "" なら inv_map_pkl と同じディレクトリ
+bool force_regenerate
+
+---
+# Response
+bool ok
+string message
+string base_pkl_path
+string base_h5_path
+string pc2_topic        # 通常 "/IRM_PointCloud2"

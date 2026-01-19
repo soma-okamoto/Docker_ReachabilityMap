@@ -1,30 +1,33 @@
 FROM ros:noetic-ros-core
 
-# タイムゾーンを JST に設定
 ENV TZ=Asia/Tokyo
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
  && echo $TZ > /etc/timezone
 
-# 必要な apt パッケージのインストール
-RUN apt-get update && apt-get install -y \
-      ros-noetic-rosbridge-server \
+# 依存を「明示」して再現性を上げる
+RUN apt-get update && apt-get install -y --no-install-recommends \
       python3-pip \
       python3-catkin-tools \
       python3-rosdep \
-      ros-noetic-rviz \
-      qtbase5-dev \
-      qtbase5-dev-tools \
-      libqt5core5a \
-      libqt5gui5 \
-      libqt5widgets5 \
+      libnss-wrapper \
       libhdf5-dev \
       dos2unix \
+      # --- ROSの基本ツール＆Python(RM/Detectに必須) ---
+      ros-noetic-rospy \
+      ros-noetic-rviz \
+      ros-noetic-roslaunch \
+      ros-noetic-rostopic \
+      ros-noetic-rospack \
+      ros-noetic-std-msgs \
+      ros-noetic-sensor-msgs \
+      ros-noetic-geometry-msgs \
     && rm -rf /var/lib/apt/lists/*
 
+# pip 基盤
+RUN python3 -m pip install --no-cache-dir --upgrade pip setuptools wheel
 
-
-# Python モジュールを pip 経由でインストール
-RUN pip3 install --no-cache-dir \
+# Python依存（旧Dockerfileに合わせて維持）
+RUN python3 -m pip install --no-cache-dir \
       "numpy>=1.20,<2.0" \
       scipy \
       h5py \
@@ -34,13 +37,18 @@ RUN pip3 install --no-cache-dir \
       torchvision \
       pytorch-kinematics
 
-# rosdep 初期化
-RUN rosdep init \
- && rosdep update
+# rosdep（環境によって既に初期化済みの場合があるので安全化）
+RUN rosdep init 2>/dev/null || true
+RUN rosdep update || true
 
 
-# 作業ディレクトリ設定
-WORKDIR /root
+# bash起動時にROS環境を読み込み（便利）
+RUN echo "source /opt/ros/noetic/setup.bash" >> /etc/bash.bashrc
 
-# デフォルトシェル
+# 非rootでも I have no name! を消す entrypoint
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+WORKDIR /work
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["bash"]

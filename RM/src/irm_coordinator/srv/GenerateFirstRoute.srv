@@ -1,0 +1,13 @@
+# Request
+string pc2_topic        # 例 "/IRM_PointCloud2"
+string route_topic      # 例 "/IRM_first_Route"（publishしたい場合）
+string frame_id         # 例 "base_footprint"
+float32 alpha
+float32 spacing
+float32 wait_timeout_sec
+
+---
+# Response
+bool ok
+string message
+nav_msgs/Path route

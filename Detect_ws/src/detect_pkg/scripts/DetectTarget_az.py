@@ -1,4 +1,5 @@
-#!/usr/bin/env python3  # シバンで Python 3 を指定
+#!/usr/bin/env python3 
+# シバンで Python 3 を指定
 import rospy  # ROS ノード制御用ライブラリ
 import json  # 重み設定の読み書きに使用
 import argparse  # コマンドライン引数のパーサ

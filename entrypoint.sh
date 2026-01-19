@@ -1,13 +1,13 @@
 #!/bin/bash
 set -e
 
-# ROS環境
+# ROS環境（rospy/roslaunch/rostopic が安定）
 source /opt/ros/noetic/setup.bash
 
-# 1) roscore をバックグラウンドで立ち上げ
-roscore &
-# 少し待って ROS Master を立ち上げ
-sleep 5
+# 非root運用向け
+export HOME="${HOME:-/tmp}"
 
-# 2) rosbridge_websocket をフォアグラウンドで起動
-exec roslaunch rosbridge_server rosbridge_websocket.launch
+# ここでは passwd いじり系はやらない（docker exec に効かないため）
+# whoami を確実に直すのは /usr/local/bin/enter 側でやる
+
+exec "$@"

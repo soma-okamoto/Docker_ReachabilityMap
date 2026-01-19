@@ -1,0 +1,14 @@
+# --- buildに不要/巨大/権限問題を起こしやすい ---
+.ros
+**/.ros
+.git
+**/.git
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/.catkin_tools
+**/build
+**/devel
+**/logs
+**/.vscode
