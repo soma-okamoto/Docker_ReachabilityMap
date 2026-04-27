@@ -1,0 +1,41 @@
+
+
+
+
+docker rm -f irm_dev
+docker run -d --name irm_dev --network=host \
+  -v /mnt/c/Users/soma0/Docker_ws/Docker_ReachabilityMap:/root \
+  -e ROS_MASTER_URI=http://192.168.44.61:11311/ \
+  -e ROS_IP=$(hostname -I | awk '{print $1}') \
+  irm_dev tail -f /dev/null
+
+
+  docker exec -it irm_dev bash
+
+
+catkin clean -f 
+source /opt/ros/noetic/setup.bash
+catkin build
+
+
+
+
+find ~/Detect_ws/src/detect_pkg/scripts -type f -name "*.py" -print0 | xargs -0 dos2unix
+source devel/setup.bash
+
+ rosrun detect_pkg QRposition_test.py
+
+
+
+
+source /opt/ros/noetic/setup.bash
+roslaunch rosbridge_server rosbridge_websocket.launch
+
+
+
+
+export ROS_MASTER_URI=http://192.168.44.61:11311
+export ROS_IP=192.168.44.61
+
+source /opt/ros/noetic/setup.bash
+roslaunch rosbridge_server rosbridge_websocket.launch
